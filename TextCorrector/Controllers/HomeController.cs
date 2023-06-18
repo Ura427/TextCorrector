@@ -28,5 +28,19 @@ namespace TextCorrector.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+
+
+
+
+
+        [HttpPost]
+        public IActionResult Correct(TextFieldValue textFieldValue)
+        {
+            string[] words = textFieldValue.Text.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+            return View();
+        }
+       
     }
 }
