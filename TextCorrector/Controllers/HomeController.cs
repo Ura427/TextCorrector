@@ -14,10 +14,10 @@ namespace TextCorrector.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {
@@ -33,7 +33,10 @@ namespace TextCorrector.Controllers
 
 
 
-
+        public IActionResult Index(TextFieldValue textFieldValue)
+        {
+            return View(textFieldValue);
+        }
 
 
         [HttpPost]
@@ -51,22 +54,10 @@ namespace TextCorrector.Controllers
                 "properly"
             };
 
-
             string[] words = textFieldValue.Text.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
-
-            List<string> invalidWords = new List<string>();
-            //Dictionary<int, string> invalidWords2 = new Dictionary<int, string>();
             OrderedDictionary orderedDictionary = new OrderedDictionary();
 
-
             //Get the list of words, that are absent in dictionary 
-            foreach (string word in words) { 
-                if (!wordSet.Contains(word))
-                {
-                    invalidWords.Add(word);
-                }
-            }
-
             for (int i = 0; i < words.Length; i++)
             {
                 if (!wordSet.Contains(words[i]))
@@ -85,12 +76,9 @@ namespace TextCorrector.Controllers
                 string correctedWord = default;
                 var charactersInWord = word.ToCharArray(); 
 
-
-
                 //Iterating through every word in dictionary
                 foreach (string word2 in wordSet)
                 {
-
                     //Doesn't match the words with high character number difference
                     if (Math.Abs(word2.Length - word.Length) > 2)
                     {
@@ -99,6 +87,7 @@ namespace TextCorrector.Controllers
 
                     int matches = 0;
                     var charactersInWord2 = word2.ToCharArray();
+
                     //Iterating through every symbol in word from wordSet
                     for (int i = 0; i < charactersInWord2.Length; i++)
                     {
@@ -130,14 +119,17 @@ namespace TextCorrector.Controllers
                 orderedDictionary[i] = correctedWords[i];
             }
 
-
             //Replacing irregular words in original sentence
             for (int i = 0; i < orderedDictionary.Count; i++)
             {
                 words[(int)orderedDictionary.Cast<System.Collections.DictionaryEntry>().ElementAt(i).Key] = orderedDictionary[i].ToString();
             }
 
-            return View("Index");
+            //Getting words array back into sentence
+            textFieldValue.Text = string.Join(" ", words);
+
+            //Passing our modified model to Index()
+            return RedirectToAction("Index", textFieldValue);
         }
        
     }
