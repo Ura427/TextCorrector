@@ -3,13 +3,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h2 class="display-4">Text Corrector</h2>
-    <p>Input your text</p>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
 
-    <form method="post">
-        <input asp-for="Text" type="text" class="form-control" />
-        <button type="submit" asp-action="Correct">Correct</button>
-    </form>
+<style>
+    body{
+        background-color: #EEEEEE
+    }
 
-</div>
+    h2{
+        color: #222831;
+        font-family: Montserrat 
+    }
+
+    p{
+        color: #393E46;
+        font-family: Montserrat   
+    }
+
+    button{
+        background-color:#00ADB5;
+        color: #EEEEEE;
+        font-family: Montserrat; 
+    }
+</style>
+
+
+    <div class="h-100 d-flex justify-content-center align-items-center ">
+        <div class="text-center">
+            <h2 class="display-4 mb-0">Text Corrector</h2>
+            <p class="mb-1">Input your text</p>
+
+            <form method="post">
+                @*<input asp-for="Text" type="text" class="form-control w-50 " />*@
+                <textarea asp-for="Text" class="form-control"></textarea>
+                <button type="submit" asp-action="Correct" class="rounded border-0 mt-2 ">Correct</button>
+            </form>
+
+        </div>
+    </div>
+
